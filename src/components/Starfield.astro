@@ -1,0 +1,91 @@
+<div id="starfield-container"></div>
+
+<script>
+  import * as THREE from 'three';
+
+  // 1. Scene Setup
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 5;
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  
+  const container = document.getElementById('starfield-container');
+  if (container) container.appendChild(renderer.domElement);
+
+  // 2. Generate Random Stars
+  const starCount = 6000;
+  const positions = new Float32Array(starCount * 3);
+  const colors = new Float32Array(starCount * 3);
+
+  // Color palette for modern space look
+  const palette = [
+    new THREE.Color('#ffffff'), // White
+    new THREE.Color('#ffe4b5'), // Moccasin/Gold
+    new THREE.Color('#e0ffff'), // Light Cyan
+    new THREE.Color('#ffb6c1'), // Light Pink
+  ];
+
+  for (let i = 0; i < starCount; i++) {
+    // Random positions in a large cube
+    positions[i * 3] = (Math.random() - 0.5) * 20;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 20;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
+
+    // Random color from palette
+    const chosenColor = palette[Math.floor(Math.random() * palette.length)];
+    colors[i * 3] = chosenColor.r;
+    colors[i * 3 + 1] = chosenColor.g;
+    colors[i * 3 + 2] = chosenColor.b;
+  }
+
+  const starGeometry = new THREE.BufferGeometry();
+  starGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  starGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+  // 3. Glowing Star Material
+  const starMaterial = new THREE.PointsMaterial({
+    size: 0.02,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.8,
+    blending: THREE.AdditiveBlending,
+  });
+
+  const stars = new THREE.Points(starGeometry, starMaterial);
+  scene.add(stars);
+
+  // 4. Animation Loop
+  function animate() {
+    requestAnimationFrame(animate);
+    
+    // Slow, cinematic rotation
+    stars.rotation.y += 0.0005;
+    stars.rotation.x += 0.0002;
+
+    renderer.render(scene, camera);
+  }
+
+  // Handle Resize
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  animate();
+</script>
+
+<style>
+  #starfield-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background: radial-gradient(circle at center, #0a0a1a 0%, #000000 100%);
+  }
+</style>
