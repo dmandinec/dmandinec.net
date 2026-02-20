@@ -7,8 +7,13 @@ import StarfieldBackground from '../components/Starfield.astro';
 	<head>
 		<meta charset="utf-8" />
 		<title>dmandinec.net</title>
-		<style>
-			/* Your "About Me" and "Blog" CSS goes here */
+		<style is>
+			
+			:root {
+    			background-color: #050505; /* Matches your starfield background */
+				    color: white;
+			}
+
 			main {
 				position: relative;
 				color: white;
@@ -17,17 +22,74 @@ import StarfieldBackground from '../components/Starfield.astro';
 				margin: 0 auto;
 				padding: 2rem;
 			}
+			.bento-container {
+				display: grid;
+				grid-template-columns: repeat(4, 1fr);
+				gap: 1.5rem;
+				max-width: 1100px;
+				margin: 10vh auto;
+				padding: 20px;
+				opacity: 0; /* Hide initially to prevent the "list" look */
+				animation: fadeIn 0.8s ease forwards;
+			}
+
+			.glass {
+				background: rgba(255, 255, 255, 0.03);
+				backdrop-filter: blur(10px);
+				border-radius: 24px;
+				min-height: 150px; /* Give boxes height immediately */
+			}
+
+			.glass:hover {
+				transform: translateY(-5px);
+				background: rgba(255, 255, 255, 0.05);
+				border: 1px solid rgba(255, 255, 255, 0.2);
+			}
+
+			/* Grid Logic */
+			.large { grid-column: span 3; }
+			.medium { grid-column: span 2; }
+			.small { grid-column: span 1; }
+
+			@media (max-width: 768px) {
+				.bento-container { grid-template-columns: 1fr; }
+				.large, .medium, .small { grid-column: span 1; }
+			}
+			@keyframes fadeIn {
+    			to { opacity: 1; }
+}
 		</style>
+		
 	</head>
 	<body>
 		<StarfieldBackground />
 
-		<main>
-			<h1>Welcome to my personal website</h1>
-			<p>I am a cosplaying Sysadmin, and faking being a Developer who is building things in the dark...</p>
-			
-			<section class="bento-grid">
-				</section>
-		</main>
+			<main class="bento-container">
+				<div class="tile large glass">
+					<h1>Welcome to the Event Horizon</h1>
+					<p>I am a developer building things in the dark...</p>
+				</div>
+
+				<div class="tile medium glass">
+					<span class="tag">Latest Post</span>
+					<h2>Moving to Astro in 2026</h2>
+					<p>Why I ditched vanilla JS for a modern static generator.</p>
+					<a href="/blog" class="btn">Read More</a>
+				</div>
+
+				<div class="tile small glass">
+					<h3>Stack</h3>
+					<div class="icons">
+					<span>JS</span> <span>Astro</span> <span>Three.js</span>
+					</div>
+				</div>
+
+				<div class="tile small glass">
+					<h3>Links</h3>
+					<div class="social-links">
+					<a href="#">GH</a> <a href="#">LI</a>
+					</div>
+				</div>
+			</main>
 	</body>
 </html>
