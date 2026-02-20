@@ -1,0 +1,104 @@
+<div id="blackhole-container"></div>
+
+<script>
+  import * as THREE from 'three';
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  const container = document.getElementById('blackhole-container');
+  if (container) container.appendChild(renderer.domElement);
+
+  // TON 618 Shader Logic
+  const geometry = new THREE.PlaneGeometry(2, 2);
+  const material = new THREE.ShaderMaterial({
+    uniforms: {
+      uTime: { value: 0 },
+      uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+    },
+    vertexShader: `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      varying vec2 vUv;
+      uniform float uTime;
+      uniform vec2 uResolution;
+
+      // Noise for the gas texture
+      float hash(vec2 p) { return fract(sin(dot(p, vec2(12.71, 31.17))) * 43758.5453); }
+      float noise(vec2 p) {
+        vec2 i = floor(p); vec2 f = fract(p);
+        vec2 u = f*f*(3.0-2.0*f);
+        return mix(mix(hash(i + vec2(0,0)), hash(i + vec2(1,0)), u.x),
+                   mix(hash(i + vec2(0,1)), hash(i + vec2(1,1)), u.x), u.y);
+      }
+
+      void main() {
+        vec2 uv = (gl_FragCoord.xy - 0.5 * uResolution.xy) / min(uResolution.y, uResolution.x);
+        
+        // Raymarching math: warping the uv coordinates to simulate gravity
+        float r = length(uv);
+        float distortion = 0.1 / (r - 0.15); // Gravitational lensing factor
+        vec2 warpedUv = uv * (1.0 + distortion);
+        
+        float dist = length(warpedUv);
+        float angle = atan(warpedUv.y, warpedUv.x);
+
+        // 1. Event Horizon (The Void)
+        float hole = smoothstep(0.18, 0.2, dist);
+
+        // 2. Accretion Disk (TON 618 Quasar Glow)
+        // Animated "light circles" moving inward
+        float rings = sin(dist * 40.0 - uTime * 5.0) * 0.5 + 0.5;
+        float gas = noise(vec2(dist * 10.0 - uTime, angle * 5.0));
+        
+        float disk = smoothstep(0.5, 0.2, dist) * gas * rings;
+        
+        // 3. Cinematic Color (High Luminosity Quasar)
+        vec3 coreColor = vec3(1.0, 0.6, 0.2); // Golden Orange
+        vec3 edgeColor = vec3(1.0, 0.1, 0.0); // Deep Red
+        vec3 finalColor = mix(edgeColor, coreColor, disk + 0.2);
+
+        // Glow falloff
+        float glow = 0.05 / (dist - 0.18);
+        
+        vec3 color = (finalColor * disk * 2.0) + (coreColor * glow * 0.5);
+        gl_FragColor = vec4(color * hole, 1.0);
+      }
+    `
+  });
+
+  const mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+
+  function animate() {
+    requestAnimationFrame(animate);
+    material.uniforms.uTime.value += 0.02;
+    renderer.render(scene, camera);
+  }
+
+  window.addEventListener('resize', () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    material.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
+  });
+
+  animate();
+</script>
+
+<style>
+  #blackhole-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background: #000;
+  }
+</style>
