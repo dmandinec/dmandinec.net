@@ -5,6 +5,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import StarfieldBackground from '../components/Starfield.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
@@ -34,7 +35,51 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				max-width: calc(100% - 2em);
 				margin: auto;
 				padding: 1em;
-				color: rgb(var(--gray-dark));
+				color: #fdf6e3;
+			}
+			.prose :global(h1),
+			.prose :global(h2),
+			.prose :global(h3),
+			.prose :global(h4),
+			.prose :global(h5),
+			.prose :global(h6) {
+				color: #fdf6e3;
+			}
+			.prose :global(p),
+			.prose :global(li),
+			.prose :global(blockquote) {
+				color: #fdf6e3;
+			}
+			.prose :global(code) {
+				color: #eee8d5;
+				background-color: rgba(0, 0, 0, 0.3);
+				padding: 0.2em 0.4em;
+				border-radius: 3px;
+			}
+			.prose :global(pre) {
+				color: #fdf6e3;
+				background-color: rgba(0, 0, 0, 0.5);
+				padding: 1em;
+				border-radius: 8px;
+				overflow-x: auto;
+			}
+			.prose :global(pre code) {
+				background-color: transparent;
+				padding: 0;
+			}
+			.prose :global(a) {
+				color: #268bd2;
+			}
+			.prose :global(a:hover) {
+				color: #2aa198;
+			}
+			.prose :global(strong),
+			.prose :global(b) {
+				color: #fdf6e3;
+			}
+			.prose :global(em),
+			.prose :global(i) {
+				color: #eee8d5;
 			}
 			.title {
 				margin-bottom: 1em;
@@ -44,10 +89,11 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			}
 			.title h1 {
 				margin: 0 0 0.5em 0;
+				color: #fdf6e3;
 			}
 			.date {
 				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
+				color: #eee8d5;
 			}
 			.last-updated-on {
 				font-style: italic;
@@ -56,6 +102,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 	</head>
 
 	<body>
+		<StarfieldBackground />
 		<Header />
 		<main>
 			<article>
