@@ -1,0 +1,58 @@
+---
+import Starfield from '../components/Starfield.astro';
+import NebulaClouds from '../components/NebulaClouds.astro';
+import WarpSpeed from '../components/WarpSpeed.astro';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Space Backgrounds Showcase</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font-family: 'Segoe UI', system-ui, sans-serif; background: #000; color: #fff; min-height: 100vh; }
+      .showcase { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; padding: 2rem; }
+      .preview-card { position: relative; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.02); }
+      .preview-card h2 { position: absolute; top: 1rem; left: 1rem; z-index: 10; font-size: 1.25rem; text-shadow: 0 2px 8px rgba(0,0,0,0.8); background: rgba(0,0,0,0.5); padding: 0.5rem 1rem; border-radius: 8px; }
+      .preview-card p { position: absolute; bottom: 1rem; left: 1rem; z-index: 10; font-size: 0.875rem; color: rgba(255,255,255,0.7); text-shadow: 0 1px 4px rgba(0,0,0,0.8); background: rgba(0,0,0,0.5); padding: 0.5rem 1rem; border-radius: 8px; }
+      .preview-frame { width: 100%; height: 350px; border: none; }
+      header { text-align: center; padding: 3rem 2rem 1rem; }
+      header h1 { font-size: 2.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+      header p { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+      .usage { text-align: center; padding: 2rem; color: rgba(255,255,255,0.5); font-size: 0.9rem; }
+      .usage code { background: rgba(255,255,255,0.1); padding: 0.2em 0.5em; border-radius: 4px; font-family: monospace; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Space Backgrounds</h1>
+      <p>Three.js animated backgrounds for your Astro website</p>
+    </header>
+
+    <div class="showcase">
+      <div class="preview-card">
+        <h2>Starfield</h2>
+        <p>Classic rotating star field with colored circular stars</p>
+        <iframe class="preview-frame" src="/preview/starfield"></iframe>
+      </div>
+
+      <div class="preview-card">
+        <h2>Warp Speed</h2>
+        <p>Flying through space at lightspeed with circular stars</p>
+        <iframe class="preview-frame" src="/preview/warpspeed"></iframe>
+      </div>
+
+      <div class="preview-card">
+        <h2>Nebula Clouds</h2>
+        <p>Colorful nebula with purple, pink and blue circular stars</p>
+        <iframe class="preview-frame" src="/preview/nebula"></iframe>
+      </div>
+    </div>
+
+    <div class="usage">
+      <p>Usage: Import any component and add it to your page like <code>&lt;Starfield /&gt;</code></p>
+    </div>
+  </body>
+</html>

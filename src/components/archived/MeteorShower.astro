@@ -1,0 +1,165 @@
+<div id="meteor-container"></div>
+
+<script>
+  import * as THREE from 'three';
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 10;
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  
+  const container = document.getElementById('meteor-container');
+  if (container) container.appendChild(renderer.domElement);
+
+  // Star texture
+  const canvas = document.createElement('canvas');
+  canvas.width = 32;
+  canvas.height = 32;
+  const ctx = canvas.getContext('2d');
+  const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+  grad.addColorStop(0, 'rgba(255,255,255,1)');
+  grad.addColorStop(0.4, 'rgba(200,220,255,0.5)');
+  grad.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 32, 32);
+  const starTex = new THREE.CanvasTexture(canvas);
+
+  // Background stars
+  const starCount = 2000;
+  const starPos = new Float32Array(starCount * 3);
+  for (let i = 0; i < starCount; i++) {
+    starPos[i * 3] = (Math.random() - 0.5) * 100;
+    starPos[i * 3 + 1] = (Math.random() - 0.5) * 100;
+    starPos[i * 3 + 2] = (Math.random() - 0.5) * 50 - 10;
+  }
+  const starGeo = new THREE.BufferGeometry();
+  starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+  const starMat = new THREE.PointsMaterial({
+    size: 0.1,
+    map: starTex,
+    color: 0xffffff,
+    transparent: true,
+    opacity: 0.7,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+  });
+  const stars = new THREE.Points(starGeo, starMat);
+  scene.add(stars);
+
+  // Meteors
+  const meteorCount = 15;
+  const meteors = [];
+
+  for (let i = 0; i < meteorCount; i++) {
+    const trailLength = 50;
+    const positions = new Float32Array(trailLength * 3);
+    const opacities = new Float32Array(trailLength);
+
+    for (let j = 0; j < trailLength; j++) {
+      positions[j * 3] = 0;
+      positions[j * 3 + 1] = 0;
+      positions[j * 3 + 2] = 0;
+      opacities[j] = 1 - j / trailLength;
+    }
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    const mat = new THREE.LineBasicMaterial({
+      color: 0xaaccff,
+      transparent: true,
+      opacity: 0,
+      blending: THREE.AdditiveBlending,
+    });
+
+    const line = new THREE.Line(geo, mat);
+    line.userData = {
+      active: false,
+      x: 0, y: 0, z: 0,
+      vx: 0, vy: 0, vz: 0,
+      trail: [],
+      trailLength,
+      timer: Math.random() * 200,
+    };
+    scene.add(line);
+    meteors.push(line);
+  }
+
+  function resetMeteor(meteor) {
+    const d = meteor.userData;
+    d.x = (Math.random() - 0.5) * 20;
+    d.y = 10 + Math.random() * 5;
+    d.z = (Math.random() - 0.5) * 5;
+    d.vx = (Math.random() - 0.5) * 0.1;
+    d.vy = -(0.15 + Math.random() * 0.1);
+    d.vz = (Math.random() - 0.5) * 0.05;
+    d.trail = [];
+    d.active = true;
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    stars.rotation.y += 0.0001;
+
+    meteors.forEach(meteor => {
+      const d = meteor.userData;
+      d.timer--;
+
+      if (!d.active && d.timer <= 0) {
+        resetMeteor(meteor);
+        meteor.material.opacity = 0.8;
+      }
+
+      if (d.active) {
+        d.x += d.vx;
+        d.y += d.vy;
+        d.z += d.vz;
+
+        d.trail.unshift([d.x, d.y, d.z]);
+        if (d.trail.length > d.trailLength) d.trail.pop();
+
+        const pos = meteor.geometry.attributes.position.array;
+        for (let i = 0; i < d.trailLength; i++) {
+          if (i < d.trail.length) {
+            pos[i * 3] = d.trail[i][0];
+            pos[i * 3 + 1] = d.trail[i][1];
+            pos[i * 3 + 2] = d.trail[i][2];
+          }
+        }
+        meteor.geometry.attributes.position.needsUpdate = true;
+
+        if (d.y < -15) {
+          d.active = false;
+          meteor.material.opacity = 0;
+          d.timer = 100 + Math.random() * 300;
+        }
+      }
+    });
+
+    renderer.render(scene, camera);
+  }
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  animate();
+</script>
+
+<style>
+  #meteor-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background: linear-gradient(to bottom, #000510 0%, #000a1a 50%, #000815 100%);
+  }
+</style>
