@@ -6,11 +6,6 @@ import HeaderLink from './HeaderLink.astro';
 <header>
 	<nav>
 		<h2><a href="/">{SITE_TITLE}</a></h2>
-		<div class="internal-links">
-			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/blog">Blog</HeaderLink>
-			<HeaderLink href="/about">O mě</HeaderLink>
-		</div>
 		<div class="social-links">
 			<a href="https://www.instagram.com/dmandinec/" target="_blank">
 				<span class="sr-only">Message me on Instagram</span>
@@ -47,8 +42,6 @@ import HeaderLink from './HeaderLink.astro';
 		margin: 0;
 		padding: 0 1em;
 		background: transparent;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-		backdrop-filter: blur(10px);
 	}
 	h2 {
 		margin: 0;
