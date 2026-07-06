@@ -12,32 +12,60 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
 			body, h1, h3, p { color: #fdf6e3; }
+			h1, h3 { text-align: center; }
 			p { text-align: center; }
 		</style>
 	</head>
 	<body>
 		<StarfieldBackground />
 		<Header />
-		<main>
+		<main style="max-width: 800px; margin: 0 auto; padding: 0 20px;">
 			<h1>Vítejte na mé stránce!</h1>
 			
-			<p>
+			<p style="text-align: center;">
 				Zdravím, jméno mé <b>Daniel Mandinec</b> jest.
 			</p>
 
 			<p>
-				Aktuálně Jsem studentem Vyšší odborné školy informačních studií, studuji obor Síťové a zabezpečovací technologie, s konkrétním zaměřením 
-				na počítačové sítě. Zajímá mě správa sítí, práce s hardwarem a softwarem.
+				Jsem dvacetiletý technologický nadšenec a <b>sysadmin cosplayer</b>. 
+				Miluji kočky a miluju hudbu.
+				Počítače a operační systémy mě fascinují od té doby, co jsem byl teenager. Vždycky mě víc zajímalo to, 
+				jak věci fungují uvnitř, jak spolu komunikují a jak se chovají různé operační systémy. Programování mě naopak nikdy moc netáhlo.
 			</p>
 
-			<h3>Hi, I am Daniel!</h3>
-
+			<h2>Co mě baví</h2>
 			<p>
-				Jmenuji se Daniel Mandinec, je mi 20 let. Jsem někdo, kdo by se dal nazvat jako <b>Sysadmin cosplayer</b>.
-				Počítače mě zajímaly od doby, co jsem se stal teenagerem. Většinou jsem byl zaujat funkcí operačních systémů,
-				než programováním. Mým hlavním zájmem bylo to, jak operační systémy fungují, jaké jsou rozdíli mezi nimi. Také
-				 jsem už od dětství miloval hraní her, což mě později přivedlo k tomu, že jsem se začal zajímat o počítače. 
+				Můj hlavní zájem leží v oblasti správy sítí, operačních systémů a self-hostingu. Baví mě brát hardware do vlastních rukou, 
+				učit se na domácích serverech a mít svá osobní data plně pod kontrolou - bez nutnosti platit velká předplatná za korporátní cloudové služby.
 			</p>
+
+			<h2>Gaming & Žánry</h2>
+			<p>
+				Jako malý jsem vyrostl na Minecraftu a jeho modování. Nikdy mě moc nebraly kompetitivní hry, raději utíkám k příběhům. 
+				Postupně jsem se dostal k RPG žánru, jako je série Baldur's Gate, Project Zomboid, her založených na mechanikách DnD nebo k Souls-like titulům (i když přirovnávat Souls hry k čistokrevnému RPG je občas šílenost). 
+				Mám rád i atmosférické záležitosti jako Stray, Firewatch, Tell Me Why nebo sérii Resident Evil. Obecně miluji psychologické horory a v poslední době mě začala bavit také emulace starých konzolí a retro her.
+			</p>
+
+			<h2>Můj Home Lab & Setup</h2>
+			
+			<h3>Hardware & Servery</h3>
+			<ul>
+				<li><b>Domácí server:</b> Bare-metal hypervizor postavený na Proxmoxu. Běží na docela zajímavém hardwaru - Intel Xeon E5-2650v4, 64 GB DDR4 ECC RAM, NVIDIA RTX A2000 a čínská X99 základní deska. Hostuji na něm Pi-hole, vlastní Discord boty a vzdálenou pracovní stanici.</li>
+				<li><b>Úložiště:</b> NAS Asustor AS6102T. Prostě spolehlivá síťová krabička na data.</li>
+				<li><b>Vzdálené VPS:</b> VPS s velkým diskovým prostorem, kde mi běží vlastní privátní cloud jako kompletní náhrada za Google Drive nebo iCloud.</li>
+				<li><b>Desktop:</b> Intel NUC 11 Enthusiast. Na běžnou práci a méně náročné hraní dostačuje, ale limity má poměrně blízko.</li>
+				<li><b>Gaming zařízení:</b> ASUS ROG G513QM. Výkonný herní notebook, který nastupuje tam, kde už NUC nestíhá.</li>
+				<li><b>Edge devices:</b> Raspberry Pi 4B - připravené v záloze na jakýkoliv další projekt, co mě cvrnkne do nosu.</li>
+				<li><b>Notebook:</b> MacBook Pro M1. Moje nejlepší koupě na cestování a běžnou agendu.</li>
+				<li><b>Telefon:</b> Google Pixel 9 Pro. Takový ten "iPhone mezi Androidy".</li>
+			</ul>
+
+			<h3>Operační systémy</h3>
+			<ul>
+				<li><b>Desktop & Gaming:</b> Na osobních PC spoléhám na Nobara Linux kvůli naprosto bezbolestné integraci NVIDIA ovladačů.</li>
+				<li><b>Servery:</b> Nejčastěji a nejraději sáhnu po systémech postavených kolem Debianu.</li>
+				<li><b>Na cesty:</b> macOS - pro mě osobně nepřekonaný systém na přenosném počítači.</li>
+			</ul>
 		</main>
 		<Footer />
 	</body>

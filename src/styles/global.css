@@ -30,8 +30,7 @@ body {
 	flex-direction: column;
 }
 main {
-	width: 720px;
-	max-width: calc(100% - 2em);
+	max-width: 66vw;
 	margin: auto;
 	padding: 3em 1em;
 	flex: 1;
@@ -39,6 +38,7 @@ main {
 h1, h2, h3, h4, h5, h6 {
 	margin: 0 0 0.5rem 0;
 	line-height: 1.2;
+	text-align: center;
 }
 h1 { font-size: 3.052em; }
 h2 { font-size: 2.441em; }
@@ -59,7 +59,7 @@ code {
 hr { border: none; border-top: 1px solid rgba(255, 255, 255, 0.1); }
 @media (max-width: 720px) {
 	body { font-size: 18px; }
-	main { padding: 1em; }
+	main { max-width: calc(100% - 2em); padding: 1em; }
 }
 .sr-only {
 	border: 0;
