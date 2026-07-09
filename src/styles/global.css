@@ -30,9 +30,9 @@ body {
 	flex-direction: column;
 }
 main {
-	max-width: 66vw;
-	margin: auto;
-	padding: 3em 1em;
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 2em 1.5em;
 	flex: 1;
 }
 h1, h2, h3, h4, h5, h6 {
@@ -59,7 +59,7 @@ code {
 hr { border: none; border-top: 1px solid rgba(255, 255, 255, 0.1); }
 @media (max-width: 720px) {
 	body { font-size: 18px; }
-	main { max-width: calc(100% - 2em); padding: 1em; }
+	main { max-width: 100%; padding: 1.5em 1em; }
 }
 .sr-only {
 	border: 0;
